@@ -32,3 +32,8 @@ production:
 
   # bushido (mongohq_url will also work)
   uri: <%= ENV['MONGODB_URL'] %>
+
+  host: mongodb0.locum.ru
+  username: fkonstan_new-t13
+  password: OrnrD1Qp
+  database: fkonstan_new-t13
