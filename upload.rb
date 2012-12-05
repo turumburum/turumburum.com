@@ -10,16 +10,23 @@ resp = RestClient.post('http://new-turumburum-com.fkonstantin.locum.ru/locomotiv
 )
 resp = JSON.parse(resp)
 
-RestClient.post('http://new-turumburum-com.fkonstantin.locum.ru/locomotive/api/theme_assets', {
+Dir["images/*"].each do |filename|
+
+  next if filename == '.' or filename == '..'
+
+  p "Uploading: #{filename}"
+  resp2 = RestClient.post('http://new-turumburum-com.fkonstantin.locum.ru/locomotive/api/theme_assets', {
     xhr: true,
     content_locale: "ru",
     theme_asset: {
       plain_text_type: "stylesheet",
       plain_text_type_text: "stylesheet",
       performing_plain_text: "",
-      source: File.new("fff.gif", "rb"),
-      folder: "testapi"
+      source: File.new(filename, "rb"),
+      folder: "eightua"
     },
     auth_token: resp["token"]
-}
-)
+  }
+ )
+ p resp2
+end
