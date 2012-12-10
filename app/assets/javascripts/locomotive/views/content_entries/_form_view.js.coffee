@@ -52,6 +52,7 @@ class Locomotive.Views.ContentEntries.FormView extends Locomotive.Views.Shared.F
     @$('li.input.date input[type=text]').datepicker()
 
   enable_richtexteditor: ->
+    return false
     _.each @$('li.input.rte textarea.html'), (textarea) =>
       settings = _.extend {}, @tinyMCE_settings(),
         oninit: ((editor) =>
@@ -64,7 +65,7 @@ class Locomotive.Views.ContentEntries.FormView extends Locomotive.Views.Shared.F
           editor.save()
           $(textarea).trigger('changeSilently')
 
-      #$(textarea).tinymce(settings)
+      $(textarea).tinymce(settings)
 
   enable_select_fields: ->
     @_select_field_view = new Locomotive.Views.Shared.Fields.SelectView model: @content_type
