@@ -22,7 +22,7 @@ jQuery ($)->
       ret += "<tr>"
       for cell in row
         if cell == 0
-          ret += '<td class="empty">&nbsp;<td>'
+          ret += '<td class="empty">&nbsp;</td>'
         else
           rand = Math.round(Math.random()*(photos_n - 1) + 1)
           ret += "<td class='f#{rand}'>&nbsp;</td>"
@@ -37,4 +37,5 @@ jQuery ($)->
   insert_face()
   $(".photo-box .photo > a").click ->
     insert_face()
+    false
   
