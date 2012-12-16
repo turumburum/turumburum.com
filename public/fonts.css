@@ -17,12 +17,15 @@
 	font-weight:normal;
 	font-style:normal;
 }
-.photo-box p{
-	font:24px/27px 'pfagorasanspro-thin', sans-serif;
+@font-face {
+	font-family:'Conv_PFAgoraSansPro-Light';
+	src:url('/fonts/PFAgoraSansPro-Light.eot');
+	src:url('/fonts/PFAgoraSansPro-Light.woff') format('woff'),
+		url('/fonts/PFAgoraSansPro-Light.ttf') format('truetype'),
+		url('/fonts/PFAgoraSansPro-Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
-.service #content p{
-	font:20px/26px 'pfagorasanspro-thin', Arial, Helvetica, sans-serif;
-}
-.error-area .title{
-	font:24px/28px pfagorasanspro-thin, Arial, Helvetica, sans-serif;
-}
+.photo-box p{font:24px/27px 'pfagorasanspro-thin', sans-serif;}
+.service #content p{font:20px/26px 'Conv_PFAgoraSansPro-Light', Arial, Helvetica, sans-serif;}
+.error-area .title{font:24px/28px 'pfagorasanspro-thin', Arial, Helvetica, sans-serif;}
