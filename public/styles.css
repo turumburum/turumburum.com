@@ -1,19 +1,19 @@
 @font-face{
 	font-family: 'pfagorasanspro-thin';
-	src:url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Thin.eot');
-	src:url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Thin.eot?#iefix') format('embedded-opentype'),
-		url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Thin.ttf') format('truetype'),
-		url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Thin.svg') format('svg');
+	src:url('/fonts/PFAgoraSansPro-Thin.eot');
+	src:url('/fonts/PFAgoraSansPro-Thin.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/PFAgoraSansPro-Thin.ttf') format('truetype'),
+		url('/fonts/PFAgoraSansPro-Thin.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face{
 	font-family:'pf_agora_sans_proregular';
-	src:url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Reg.eot');
-	src:url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Reg.eot?#iefix') format('embedded-opentype'),
-		url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Reg.woff') format('woff'),
-		url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Reg.ttf') format('truetype'),
-		url('http://new-turum.s3.amazonaws.com/sites/5098e0af42cacb3e8f000004/theme/fonts/PFAgoraSansPro-Reg.svg#pf_agora_sans_proregular') format('svg');
+	src:url('/fonts/PFAgoraSansPro-Reg.eot');
+	src:url('/fonts/PFAgoraSansPro-Reg.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/PFAgoraSansPro-Reg.woff') format('woff'),
+		url('/fonts/PFAgoraSansPro-Reg.ttf') format('truetype'),
+		url('/fonts/PFAgoraSansPro-Reg.svg#pf_agora_sans_proregular') format('svg');
 	font-weight:normal;
 	font-style:normal;
 }
