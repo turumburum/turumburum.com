@@ -1,0 +1,28 @@
+@font-face{
+	font-family: 'pfagorasanspro-thin';
+	src:url('/fonts/PFAgoraSansPro-Thin.eot');
+	src:url('/fonts/PFAgoraSansPro-Thin.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/PFAgoraSansPro-Thin.ttf') format('truetype'),
+		url('/fonts/PFAgoraSansPro-Thin.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face{
+	font-family:'pf_agora_sans_proregular';
+	src:url('/fonts/PFAgoraSansPro-Reg.eot');
+	src:url('/fonts/PFAgoraSansPro-Reg.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/PFAgoraSansPro-Reg.woff') format('woff'),
+		url('/fonts/PFAgoraSansPro-Reg.ttf') format('truetype'),
+		url('/fonts/PFAgoraSansPro-Reg.svg#pf_agora_sans_proregular') format('svg');
+	font-weight:normal;
+	font-style:normal;
+}
+.photo-box p{
+	font:24px/27px 'pfagorasanspro-thin', sans-serif;
+}
+.service #content p{
+	font:20px/26px 'pfagorasanspro-thin', Arial, Helvetica, sans-serif;
+}
+.error-area .title{
+	font:24px/28px pfagorasanspro-thin, Arial, Helvetica, sans-serif;
+}
