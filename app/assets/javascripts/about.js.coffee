@@ -1,7 +1,9 @@
 jQuery ($)->
   return if $(".faces").length == 0
 
-  photos_n = 22
+  Array::shuffle = -> @sort -> 0.5 - Math.random()
+
+  photos_n = 23
 
   face_patterns =
     [
@@ -71,6 +73,8 @@ jQuery ($)->
     ]
 
   make_face = (pattern_n)->
+    two_arrays = ([1..(photos_n - 1)].shuffle()).concat([1..(photos_n - 1)].shuffle())
+    i = 0
     ret = "<table>"
     for row in face_patterns[pattern_n]
       ret += "<tr>"
@@ -78,8 +82,7 @@ jQuery ($)->
         if cell == 0
           ret += '<td class="empty">&nbsp;</td>'
         else
-          rand = Math.round(Math.random()*(photos_n - 1) + 1)
-          ret += "<td class='f#{rand}'>&nbsp;</td>"
+          ret += "<td class='f#{two_arrays[i++]}'>&nbsp;</td>"
 
     ret += "</table>"
     ret
