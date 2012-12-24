@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
   before_filter :check_uri
 
   def check_uri
-    redirect_to request.protocol + request.host_with_port.gsub(/^www/,"") + request.request_uri if /^www/.match(request.host)
+    redirect_to request.protocol + request.host_with_port.gsub(/^www/,"") + request.fullpath if /^www/.match(request.host)
   end
 end
