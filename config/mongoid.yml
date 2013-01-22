@@ -38,7 +38,3 @@ production:
 
   # bushido (mongohq_url will also work)
   #uri: <%= ENV['MONGODB_URL'] %>
-
-
-  <<: *defaults
-  database: locomotive_test
