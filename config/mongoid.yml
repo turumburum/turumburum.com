@@ -1,6 +1,12 @@
 defaults: &defaults
-  host: localhost
+  max_retries_on_connection_failure: 3
+  host: mongodb0.locum.ru
   port: 27017
+  username: fkonstan_new-t13
+  password: OrnrD1Qp
+  database: fkonstan_new-t13
+  #host: localhost
+  #port: 27017
   # slaves:
   #   - host: slave1.local
   #     port: 27018
@@ -17,7 +23,6 @@ test:
 
 # set these environment variables on your prod server
 production:
-  max_retries_on_connection_failure: 3
   # <<: *defaults
   # database: locomotive_prod
 
@@ -34,11 +39,6 @@ production:
   # bushido (mongohq_url will also work)
   #uri: <%= ENV['MONGODB_URL'] %>
 
-  host: mongodb0.locum.ru
-  port: 27017
-  username: fkonstan_new-t13
-  password: OrnrD1Qp
-  database: fkonstan_new-t13
 
   <<: *defaults
   database: locomotive_test
