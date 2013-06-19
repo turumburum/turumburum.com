@@ -14,7 +14,11 @@ Locomotive.configure do |config|
   #   # Ex:
   #   multi_sites.reserved_subdomains = %w(www admin email blog webmail mail support help site sites)
   # end
-  config.multi_sites = false
+  config.multi_sites = true
+  config.multi_sites do |multi_sites|
+    multi_sites.domain = 'turumburum.com'
+    multi_sites.reserved_subdomains = %w(ru)
+  end
 
   # configure how many items we display in sub menu in the "Contents" section.
   # config.ui = {
