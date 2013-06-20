@@ -23,7 +23,7 @@ test:
 
 # set these environment variables on your prod server
 production:
-  # <<: *defaults
+   <<: *defaults
   # database: locomotive_prod
 
   # other settings for production
