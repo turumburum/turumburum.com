@@ -1,5 +1,5 @@
 defaults: &defaults
-  #max_retries_on_connection_failure: 3
+  max_retries_on_connection_failure: 3
   host: mongodb0.locum.ru
   port: 27017
   username: fkonstan_new-t13
