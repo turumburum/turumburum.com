@@ -141,8 +141,8 @@ class SiteMigration < Mongoid::Migration
       a2 = a.clone
       a2.site = ru
       #remove validation for production
-      #a2.save(validate: false)
-      a2.save
+      a2.save(validate: false)
+      #a2.save
     end
 
 
