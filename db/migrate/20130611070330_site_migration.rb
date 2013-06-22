@@ -10,7 +10,7 @@ class SiteMigration < Mongoid::Migration
     ua = Locomotive::Site.where(subdomain: "ua").first
     ru = Locomotive::Site.where(subdomain: "ru").first
 
-    Locomotive::ContentAsset.where(site_id: ua.id).each do |asset|
+    Locomotive::ContentAsset.where(site_id: ua.id).entries.each do |asset|
       a2 = asset.clone
       a2.site = ru
       a2.save
@@ -18,7 +18,7 @@ class SiteMigration < Mongoid::Migration
 
     saved_ct_names = {}
     cts = []
-    Locomotive::ContentType.where(site_id: ua.id).each do |t|
+    Locomotive::ContentType.where(site_id: ua.id).entries.each do |t|
       t2 = t.clone
       t2.site = ru
 
@@ -35,9 +35,11 @@ class SiteMigration < Mongoid::Migration
       ct.entries_custom_fields.each_with_index do |f,i|
 
         if f.class_name.present?
-          id = f.class_name.scan(/Locomotive::Entry(.*)$/).flatten.first
-          ct.entries_custom_fields[i].class_name = f.class_name.gsub(/#{id}/, saved_ct_names[id])
-          flag = true
+          id = f.class_name.scan(/Locomotive::ContentEntry(.*)$/).flatten.first
+          if id
+            ct.entries_custom_fields[i].class_name = f.class_name.gsub(/#{id}/, saved_ct_names[id])
+            flag = true
+          end
         end
 
       end if ct.entries_custom_fields
@@ -47,13 +49,29 @@ class SiteMigration < Mongoid::Migration
         ct1 << ct
       end
     end
-    ct1.each{|ct| ct.save}
-    ct2.each{|ct| ct.save}
+    #ct1.each do |ct| 
+      #ct.save rescue next
+    #end
+
+    #ct2.each do |ct| 
+      #ct.save rescue next
+    #end
+    ct1.each do |ct| 
+      if !ct.save
+        p "CT Error", ct.id, ct.errors, "-"*80
+      end
+    end
+
+    ct2.each do |ct| 
+      if !ct.save
+        p "CT Error", ct.id, ct.errors, "-"*80
+      end
+    end
 
     processed_entries = []
     entries_map = {}
 
-    Locomotive::ContentEntry.where(site_id: ua.id).each do |e|
+    Locomotive::ContentEntry.where(site_id: ua.id).entries.each do |e|
       next unless e
       next if processed_entries.include? e.id
       next if e.content_type && e.content_type.site.id == ru.id
@@ -70,27 +88,28 @@ class SiteMigration < Mongoid::Migration
       e2._type = "Locomotive::ContentEntry" + e2.content_type.id.to_s
 
       if !e2.save
-        p "Error", e2.id, e2.errors, "-"*80
+        p "CE Error", e2.id, e2.errors, "-"*80
       else
         processed_entries << e.id
         entries_map[e.id] = e2.id
       end
     end
-    Locomotive::ContentEntry.where(site_id: ua.id).each do |e|
+    Locomotive::ContentEntry.where(site_id: ua.id).entries.each do |e|
       next unless e
       next if processed_entries.include? e.id
       next if e.content_type && e.content_type.site.id == ru.id
-      next if (e.project_ids rescue []).any?
-      next if (e.branch_ids rescue []).any?
 
+      p "----------"
       e2 = e.clone
 
-      e2._slug = e2._slug + "ru"
+      e2._slug = e2._slug + "_ru"
       e2.site = ru
       e2.content_type = Locomotive::ContentType.where(name: e.content_type.name).where(site_id: ru.id).first if e.content_type
 
+      e2._type = "Locomotive::ContentEntry" + e2.content_type.id.to_s
+
       projects = e2.project_ids rescue []
-      if p.any?
+      if projects.any?
         new_p = []
         projects.each do |p|
           next unless entries_map[p]
@@ -110,20 +129,20 @@ class SiteMigration < Mongoid::Migration
       end
 
       if !e2.save
-        p "Error", e2.id, e2.errors, "-"*80
+        p "CE2 Error", e2.id, e2.errors, "-"*80
       else
         processed_entries << e.id
         entries_map[e.id] = e2.id
       end
     end
 
-    Locomotive::ThemeAsset.where(site_id: ua.id).each do |a|
+    Locomotive::ThemeAsset.where(site_id: ua.id).entries.each do |a|
       next unless a
       a2 = a.clone
       a2.site = ru
       #remove validation for production
       #a2.save(validate: false)
-      a2.save(validate: false)
+      a2.save
     end
 
 
@@ -131,11 +150,11 @@ class SiteMigration < Mongoid::Migration
     saved_pages = []
 
 
-    Locomotive::Page.where(site_id: ua.id).each do |p|
+    Locomotive::Page.where(site_id: ua.id).entries.each do |p|
       next unless p
       p2 = p.clone
       p2.site = ru
-      p2.save(validate: false)
+      p2.save
       saved_pages_ids[p.id] = p2.id
       saved_pages << p2
     end
@@ -151,10 +170,19 @@ class SiteMigration < Mongoid::Migration
     ua = Locomotive::Site.where(subdomain: "ua").first
     ru = Locomotive::Site.where(subdomain: "ru").first
 
+    p "assets"
     Locomotive::ContentAsset.delete_all(site_id: ru.id)
+    sleep 0.5
+    p "CT"
     Locomotive::ContentType.delete_all(site_id: ru.id)
+    sleep 0.5
+    p "CE"
     Locomotive::ContentEntry.delete_all(site_id: ru.id)
+    sleep 0.5
+    p "theme assets"
     Locomotive::ThemeAsset.delete_all(site_id: ru.id)
+    sleep 0.5
+    p "page"
     Locomotive::Page.delete_all(site_id: ru.id)
   end
 end
