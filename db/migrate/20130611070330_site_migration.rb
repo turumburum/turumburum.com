@@ -19,11 +19,19 @@ class SiteMigration < Mongoid::Migration
     saved_ct_names = {}
     cts = []
     Locomotive::ContentType.where(site_id: ua.id).entries.each do |t|
-      t2 = t.clone
-      t2.site = ru
+      #t2 = t.clone
+      #t2.site = ru
 
-      saved_ct_names[t.id.to_s] = t2.id.to_s
+      #saved_ct_names[t.id.to_s] = t2.id.to_s
+      #t2.slug = t2.slug + "_ru"
+      t2 = Locomotive::ContentType.new
+      h = t.as_json
+      h.delete("id")
+      h.delete("_id")
+      t2.from_presenter(h)
+      t2.site = ru
       t2.slug = t2.slug + "_ru"
+      saved_ct_names[t.id.to_s] = t2.id.to_s
       cts << t2
       
     end
@@ -57,12 +65,24 @@ class SiteMigration < Mongoid::Migration
       #ct.save rescue next
     #end
     ct1.each do |ct| 
+      e = ct.entries_custom_fields
+      ct.entries_custom_fields = [e.first]
+      if !ct.save
+        p "CT Error 0", ct.id, ct.errors, "-"*80
+      end
+      ct.entries_custom_fields = e
       if !ct.save
         p "CT Error", ct.id, ct.errors, "-"*80
       end
     end
 
     ct2.each do |ct| 
+      e = ct.entries_custom_fields
+      ct.entries_custom_fields = [e.first]
+      if !ct.save
+        p "CT Error", ct.id, ct.errors, "-"*80
+      end
+      ct.entries_custom_fields = e
       if !ct.save
         p "CT Error", ct.id, ct.errors, "-"*80
       end
@@ -141,8 +161,8 @@ class SiteMigration < Mongoid::Migration
       a2 = a.clone
       a2.site = ru
       #remove validation for production
-      #a2.save(validate: false)
-      a2.save
+      a2.save(validate: false)
+      #a2.save
     end
 
 
