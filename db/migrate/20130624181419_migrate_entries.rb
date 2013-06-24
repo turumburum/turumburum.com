@@ -5,16 +5,10 @@ module Locomotive
     end
 end
 
-class SiteMigration < Mongoid::Migration
+class MigrateEntries < Mongoid::Migration
   def self.up
     ua = Locomotive::Site.where(subdomain: "ua").first
     ru = Locomotive::Site.where(subdomain: "ru").first
-
-    Locomotive::ContentAsset.where(site_id: ua.id).entries.each do |asset|
-      a2 = asset.clone
-      a2.site = ru
-      a2.save
-    end
 
     saved_ct_names = {}
     cts = []
@@ -144,33 +138,6 @@ class SiteMigration < Mongoid::Migration
       end
     end
 
-    Locomotive::ThemeAsset.where(site_id: ua.id).entries.each do |a|
-      next unless a
-      a2 = a.clone
-      a2.site = ru
-      #remove validation for production
-      a2.save(validate: false)
-      #a2.save
-    end
-
-
-    saved_pages_ids = {}
-    saved_pages = []
-
-
-    Locomotive::Page.where(site_id: ua.id).entries.each do |p|
-      next unless p
-      p2 = p.clone
-      p2.site = ru
-      p2.save
-      saved_pages_ids[p.id] = p2.id
-      saved_pages << p2
-    end
-    saved_pages.each do |p|
-      p.parent_id = saved_pages_ids[p.parent_id] if p.parent_id
-      p.parent_ids = [saved_pages_ids[p.parent_ids.first]] if p.parent_ids.any?
-      p.save(validate: false)
-    end
 
   end
 
@@ -178,19 +145,10 @@ class SiteMigration < Mongoid::Migration
     ua = Locomotive::Site.where(subdomain: "ua").first
     ru = Locomotive::Site.where(subdomain: "ru").first
 
-    p "assets"
-    Locomotive::ContentAsset.delete_all(site_id: ru.id)
-    sleep 0.5
     p "CT"
     Locomotive::ContentType.delete_all(site_id: ru.id)
     sleep 0.5
     p "CE"
     Locomotive::ContentEntry.delete_all(site_id: ru.id)
-    sleep 0.5
-    p "theme assets"
-    Locomotive::ThemeAsset.delete_all(site_id: ru.id)
-    sleep 0.5
-    p "page"
-    Locomotive::Page.delete_all(site_id: ru.id)
   end
 end
