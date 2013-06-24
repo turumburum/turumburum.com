@@ -58,15 +58,30 @@ class MigrateEntries < Mongoid::Migration
     #ct2.each do |ct| 
       #ct.save rescue next
     #end
-    ct1.each do |ct| 
-      if !ct.save
-        p "CT Error", ct.id, ct.errors, "-"*80
+
+    1.upto(10) do
+      ct1.each do |ct| 
+        next unless ct.changed?
+        begin
+          if !ct.save
+            p "CT Error", ct.id, ct.errors, "-"*80
+          end
+        rescue
+          next
+        end
       end
     end
 
-    ct2.each do |ct| 
-      if !ct.save
-        p "CT Error", ct.id, ct.errors, "-"*80
+    1.upto(10) do
+      ct2.each do |ct| 
+        next unless ct.changed?
+        begin
+          if !ct.save
+            p "CT Error", ct.id, ct.errors, "-"*80
+          end
+        rescue 
+          next
+        end
       end
     end
 
